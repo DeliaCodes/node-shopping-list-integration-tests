@@ -210,14 +210,26 @@ describe('Recipes', function () {
       .then(function (res) {
         updateRecipeData.id = res.body[0].id;
         return chai.request(app)
-          .put(`/shopping-list/${updateRecipeData.id}`)
+          .put(`/recipes/${updateRecipeData.id}`)
           .send(updateRecipeData);
       })
       .then(function (res) {
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.deep.equal(updateRecipeData);
+        expect(res).to.have.status(204);
+      }).then(() => {
+        return chai.request(app)
+          .get('/recipes')
+          .then(function (res) {
+            expect(res).to.have.status(200);
+            expect(res).to.be.json;
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.be.least(1);
+            const expectedRecipeKeys = ['id', 'name'];
+            res.body.forEach(function (recipe) {
+              expect(recipe).to.be.a('object');
+              expect(recipe).to.include.keys(updateRecipeData);
+            });
+
+          });
       });
   });
 

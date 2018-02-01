@@ -5,14 +5,16 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 
-const {Recipes} = require('./models');
+const {
+  Recipes
+} = require('./models');
 
 // we're going to add some recipes to Recipes
 // so there's some data to look at
-Recipes.create(
-  'boiled white rice', ['1 cup white rice', '2 cups water', 'pinch of salt']);
-Recipes.create(
-  'milkshake', ['2 tbsp cocoa', '2 cups vanilla ice cream', '1 cup milk']);
+// Recipes.create(
+//   'boiled white rice', ['1 cup white rice', '2 cups water', 'pinch of salt']);
+// Recipes.create(
+//   'milkshake', ['2 tbsp cocoa', '2 cups vanilla ice cream', '1 cup milk']);
 
 // send back JSON representation of all recipes
 // on GET requests to root
@@ -27,7 +29,7 @@ router.get('/', (req, res) => {
 router.post('/', jsonParser, (req, res) => {
   // ensure `name` and `budget` are in request body
   const requiredFields = ['name', 'ingredients'];
-  for (let i=0; i<requiredFields.length; i++) {
+  for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
@@ -53,7 +55,7 @@ router.delete('/:id', (req, res) => {
 // call `Recipes.updateItem` with updated recipe.
 router.put('/:id', jsonParser, (req, res) => {
   const requiredFields = ['name', 'ingredients', 'id'];
-  for (let i=0; i<requiredFields.length; i++) {
+  for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
