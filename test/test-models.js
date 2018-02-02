@@ -17,17 +17,28 @@ describe('Models', function () {
       expect(items).to.include.keys(newItem.id);
     });
 
+
     it('successfully updates a recipe', () => {
-      const createRecipe = Recipes.create();
+      Recipes.create({
+        name: 'coffee'
+      });
       const getNewRecipe = Recipes.get();
       const newRecipeName = {
         id: getNewRecipe.id,
         name: 'Milk'
       };
-      const updatedRecipe = Recipes.update(newRecipeName);
+      Recipes.update(newRecipeName);
       const getUpdatedRecipe = Recipes.get();
       expect(getUpdatedRecipe.name).to.be('Milk');
     });
+
+    /*  it('successfully deletes a recipe', () => {
+       const newRecipe = Recipes.create();
+       const getRecipeToDelete = Recipes.get();
+       Recipes.delete(getRecipeToDelete.id);
+
+       expect(getRecipeToDelete)
+     }); */
 
     //Recipes.create('Milk', );
     //What is your expectations?
