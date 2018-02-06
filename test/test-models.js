@@ -17,28 +17,27 @@ describe('Models', function () {
       expect(items).to.include.keys(newItem.id);
     });
 
-
     it('successfully updates a recipe', () => {
-      Recipes.create({
-        name: 'coffee'
-      });
-      const getNewRecipe = Recipes.get();
-      const newRecipeName = {
-        id: getNewRecipe.id,
+      const items = {};
+      const createdRecipe = Recipes.create('coffee', 'coffee', items);
+      //const getNewRecipe = Recipes.get();
+      const newRecipe = {
+        id: createdRecipe.id,
         name: 'Milk'
       };
-      Recipes.update(newRecipeName);
-      const getUpdatedRecipe = Recipes.get();
-      expect(getUpdatedRecipe.name).to.be('Milk');
+      const UpdatedRecipe = Recipes.update(newRecipe, items);
+
+      expect(Recipes.find(createdRecipe.id, items).name).to.equal('Milk');
     });
 
-    /*  it('successfully deletes a recipe', () => {
-       const newRecipe = Recipes.create();
-       const getRecipeToDelete = Recipes.get();
-       Recipes.delete(getRecipeToDelete.id);
-
-       expect(getRecipeToDelete)
-     }); */
+    it('successfully deletes a recipe', () => {
+      const newRecipe = Recipes.create('coffee', 'coffee');
+      const getRecipeToDelete = Recipes.get();
+      const idToDelete = getRecipeToDelete.id;
+      Recipes.delete(idToDelete);
+      const didRecipeDelete = Recipes.get();
+      expect(didRecipeDelete.id).to.be.equal(idToDelete);
+    });
 
     //Recipes.create('Milk', );
     //What is your expectations?

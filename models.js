@@ -56,36 +56,39 @@ function createShoppingList() {
 }
 
 const Recipes = {
-  create: function (name, ingredients) {
+  create: function (name, ingredients, items = this.items) {
     console.log('Creating a new recipe');
     const item = {
       name: name,
       id: uuid.v4(),
       ingredients: ingredients
     };
-    this.items[item.id] = item;
+    items[item.id] = item;
     return item;
   },
-  get: function () {
+  get: function (items = this.items) {
     console.log('Retrieving recipes');
     return this.items;
     //return Object.keys(this.items).map(key => this.items[key]);
   },
-  delete: function (itemId) {
+  delete: function (itemId, items = this.items) {
     console.log(`Deleting recipe with id \`${itemId}\``);
-    delete this.items[itemId];
+    delete items[itemId];
   },
-  update: function (updatedItem) {
+  update: function (updatedItem, items = this.items) {
     console.log(`Updating recipe with id \`${updatedItem.id}\``);
     const {
       id
     } = updatedItem;
-    if (!(id in this.items)) {
+    if (!(id in items)) {
       throw StorageException(
         `Can't update item \`${id}\` because doesn't exist.`)
     }
-    this.items[updatedItem.id] = updatedItem;
+    items[updatedItem.id] = updatedItem;
     return updatedItem;
+  },
+  find: function (id, items = this.items) {
+    return items[id];
   }
 };
 
